@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-4.0.xsd">
+
+<!-- 开启组件扫描   -->
+    <context:component-scan base-package="beans"/>
+
+    <bean id="SayHandler" class="beans.SecondaryHandler"/>
+
+    <bean id="teacher1" class="beans.Teacher">
+        <property name="id" value="1001"/>
+        <property name="name" value="Mr.Yang"/>
+        <property name="major" value="computer"/>
+    </bean>
+    <bean id="teacher2" class="beans.Teacher">
+        <property name="id" value="1002"/>
+        <property name="name" value="Mr.JingYe"/>
+        <property name="major" value="art"/>
+    </bean>
+
+    <bean id="myStudent" class="beans.Student">
+<!--        <constructor-arg name="id" value="1001" />-->
+<!--        <constructor-arg name="name" value="张三" />-->
+<!--        <constructor-arg name="age" value="18" />-->
+        <property name="id" value="1002"/>
+        <property name="name" value="李四"/>
+        <property name="age" value="20"/>
+        <property name="teachers">
+            <list>
+                <ref bean="teacher1"/>
+                <ref bean="teacher2"/>
+            </list>
+        </property>
+        <property name="favorBookNames">
+            <list>
+                <value>战争与和平</value>
+                <value>朝花夕拾</value>
+                <value>老人与海</value>
+            </list>
+        </property>
+    </bean>
+
+</beans>
+

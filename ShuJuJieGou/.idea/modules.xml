@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/MrYang/MrYang.iml" filepath="$PROJECT_DIR$/MrYang/MrYang.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Part1/Part1.iml" filepath="$PROJECT_DIR$/Part1/Part1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Part2/Part2.iml" filepath="$PROJECT_DIR$/Part2/Part2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Part3/Part3.iml" filepath="$PROJECT_DIR$/Part3/Part3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Part4/Part4.iml" filepath="$PROJECT_DIR$/Part4/Part4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ShuJuJieGou.iml" filepath="$PROJECT_DIR$/ShuJuJieGou.iml" />
+      <module fileurl="file://$PROJECT_DIR$/期末大作业/期末大作业.iml" filepath="$PROJECT_DIR$/期末大作业/期末大作业.iml" />
+    </modules>
+  </component>
+</project>

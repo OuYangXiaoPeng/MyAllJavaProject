@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</head>
+<body>
+用户名：<input type="text" name="id" id="name"/><br/>
+密&nbsp;&nbsp;&nbsp;码：<input type="password" name="password" id="pwd"><br/>
+年&nbsp;&nbsp;&nbsp;龄：<input type="text" name="age" id="age"/><br/>
+<input type="button" value="提交" onclick="sendMsg()">
+
+
+<script type="text/javascript">
+    function sendMsg() {
+
+        const user = new Object();
+        user.id = $('#name').val();
+        user.password = $('#pwd').val();
+        user.age = parseInt($('#age').val());
+        const jsontxt = JSON.stringify(user);
+        // alert(jsontxt);
+
+        axios.post('../controllers/login.do', jsontxt,
+            {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+        )
+            .then(function (response) {
+                console.log(response)
+                alert(JSON.stringify(response.data))
+            })
+            .catch(function (error) {
+                console.log(error)
+            })
+    }
+</script>
+
+</body>
+</html>

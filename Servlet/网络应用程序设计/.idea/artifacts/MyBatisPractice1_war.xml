@@ -1,0 +1,14 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="MyBatisPractice1:war">
+    <output-path>$PROJECT_DIR$/WebApplication2/target</output-path>
+    <properties id="maven-jee-properties">
+      <options>
+        <module>MyBatisPractice1</module>
+        <packaging>war</packaging>
+      </options>
+    </properties>
+    <root id="archive" name="WebApplication-1.0-SNAPSHOT.war">
+      <element id="artifact" artifact-name="MyBatisPractice1:war exploded" />
+    </root>
+  </artifact>
+</component>
