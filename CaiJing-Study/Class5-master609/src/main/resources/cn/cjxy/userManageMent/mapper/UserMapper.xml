@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace 名称空间，指定对哪个接口进行映射-->
+<mapper namespace="cn.cjxy.userManageMent.mapper.UserMapper">
+    <insert id="save">
+        insert into t_user values(null,#{username},#{password},#{birthday},#{address})
+    </insert>
+    <update id="update">
+        update t_user set password=#{password},birthday=#{birthday},address=#{address} where id=#{id}
+    </update>
+    <delete id="delete">
+        delete from t_user where id=#{id}
+    </delete>
+    <!--
+        select 表示执行查询sql
+            id 唯一； 必须与接口中方法名称一致。
+            resultType 表示执行查询SQL封装的实体类对象。如果放回集合，只需要指定集合中元素的类型即可。
+            标签体中存放要执行的select语句 
+    -->
+    <select id="findByUsername" resultType="cn.cjxy.userManageMent.domain.User">
+        select * from t_user where username=#{username}
+    </select>
+    <select id="findAll" resultType="cn.cjxy.userManageMent.domain.User">
+        select * from t_user
+    </select>
+    <select id="findById" resultType="cn.cjxy.userManageMent.domain.User">
+        select * from t_user where id=#{id}
+    </select>
+</mapper>

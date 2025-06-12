@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background: #f8f9fa;
+            padding: 40px;
+            max-width: 700px;
+            margin: auto;
+        }
+
+        h2 {
+            color: #d6336c;
+            border-bottom: 2px solid #dee2e6;
+            padding-bottom: 10px;
+        }
+
+        input[type="text"] {
+            width: 300px;
+            padding: 8px;
+            font-size: 16px;
+            margin-right: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 8px 16px;
+            font-size: 16px;
+            background-color: #198754;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #157347;
+        }
+
+        #message {
+            margin-top: 15px;
+            font-weight: bold;
+            color: #0d6efd;
+        }
+
+        h3 {
+            margin-top: 30px;
+            color: #495057;
+        }
+
+        ul#ranking {
+            list-style: none;
+            padding: 0;
+            margin-top: 10px;
+        }
+
+        ul#ranking li {
+            background: #ffffff;
+            padding: 10px 15px;
+            margin-bottom: 8px;
+            border-left: 4px solid #0d6efd;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            border-radius: 4px;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            color: #0d6efd;
+            text-decoration: none;
+        }
+    </style>
+    <meta charset="UTF-8">
+    <title>热搜排行榜</title>
+</head>
+<body>
+
+<h2>🔥 社交平台热搜排行榜</h2>
+
+<input type="text" id="keyword" placeholder="输入关键词">
+<button onclick="vote()">投票</button>
+
+<div id="message"></div>
+
+<h3>📈 当前热搜榜T10</h3>
+<ul id="ranking"></ul>
+
+<a href="ranking.html">➡ 查看与编辑完整热搜榜</a>
+
+<script>
+    function vote() {
+        const keyword = document.getElementById("keyword").value;
+        if (!keyword) {
+            alert("请输入关键词");
+            return;
+        }
+
+        fetch(`/vote?keyword=${encodeURIComponent(keyword)}`)
+            .then(res => res.text())
+            .then(msg => {
+                document.getElementById("message").innerText = msg;
+                document.getElementById("keyword").value = '';
+
+
+                setTimeout(() => {
+                    window.location.href = `/index.html?keyword=${encodeURIComponent(keyword)}`;
+                }, 300);
+            });
+    }
+
+    function loadRanking() {
+        fetch('/ranking', { cache: "no-store" })
+            .then(res => res.json())
+            .then(data => {
+                const list = document.getElementById("ranking");
+                list.innerHTML = '';
+                data.slice(0, 10).forEach((item, index) => {
+                    const li = document.createElement("li");
+                    li.innerText = `${index + 1}. ${item.keyword}（热度：${item.score}）`;
+                    list.appendChild(li);
+                });
+            });
+    }
+
+    // 页面加载时立即刷新排行榜
+    window.onload = function () {
+        loadRanking();
+
+        // 显示刚投票的关键词
+        const urlParams = new URLSearchParams(window.location.search);
+        const votedKeyword = urlParams.get("keyword");
+        if (votedKeyword) {
+            document.getElementById("message").innerText = `你刚刚投票了：${votedKeyword}`;
+        }
+    };
+</script>
+</body>
+</html>

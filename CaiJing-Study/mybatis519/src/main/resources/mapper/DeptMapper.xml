@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace 名称空间，指定对哪个接口进行映射-->
+<mapper namespace="cn.cjxy.mapper.DeptMapper">
+    <!--
+    select 表示执行查询sql
+    id 唯一； 必须与接口中方法名称一致。
+    resultType 表示执行查询SQL封装的实体类对象。如果放回集合，只需要指定集合中元素的
+    类型即可。
+    标签体中存放要执行的select语句
+    -->
+
+    <resultMap id="empResult2" type="cn.cjxy.domain.Dept">
+        <id column="deptId" property="id"></id>
+        <result column="deptName" property="name"></result>
+        <result column="location" property="location"></result>
+
+        <collection property="empList" ofType="cn.cjxy.domain.Emp">
+            <id column="eId" property="id"></id>
+            <result column="eName" property="name"></result>
+            <result column="age" property="age"></result>
+            <result column="addr" property="addr"></result>
+            <result column="salary" property="salary"></result>
+            <result column="dept_id" property="dept_id"></result>
+        </collection>
+    </resultMap>
+
+    <select id="findAll" resultMap="empResult2">
+        select e.id      eId,
+               e.name    eName,
+               e.age,
+               e.addr,
+               e.salary,
+               e.dept_id deptId,
+               d.name deptName,
+               d.location
+        from emp e
+                 RIGHT JOIN dept d on e.dept_id = d.id
+    </select>
+</mapper>

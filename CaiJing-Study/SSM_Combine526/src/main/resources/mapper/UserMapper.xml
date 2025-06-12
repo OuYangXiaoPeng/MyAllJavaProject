@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.cjxy.mapper.UserMapper">
+
+    <!-- 查询所有用户 -->
+    <select id="findAll" resultType="cn.cjxy.domain.User">
+        SELECT * FROM user
+    </select>
+
+    <!-- 根据ID查询用户 -->
+    <select id="findById" parameterType="int" resultType="cn.cjxy.domain.User">
+        SELECT * FROM user WHERE id = #{id}
+    </select>
+
+    <!-- 添加用户 -->
+    <insert id="addUser" parameterType="cn.cjxy.domain.User">
+        INSERT INTO user (username, birthday, sex, address)
+        VALUES (#{username}, #{birthday}, #{sex}, #{address})
+    </insert>
+
+    <!-- 更新用户 -->
+    <update id="updateUser" parameterType="cn.cjxy.domain.User">
+        UPDATE user
+        SET username = #{username},
+            birthday = #{birthday},
+            sex = #{sex},
+            address = #{address}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 删除用户 -->
+    <delete id="deleteUser" parameterType="int">
+        DELETE FROM user WHERE id = #{id}
+    </delete>
+</mapper>

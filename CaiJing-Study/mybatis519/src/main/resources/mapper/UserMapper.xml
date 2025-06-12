@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace 名称空间，指定对哪个接口进行映射-->
+<mapper namespace="cn.cjxy.mapper.UserMapper">
+    <!--
+    select 表示执行查询sql
+    id 唯一； 必须与接口中方法名称一致。
+    resultType 表示执行查询SQL封装的实体类对象。如果放回集合，只需要指定集合中元素的
+    类型即可。
+    标签体中存放要执行的select语句
+    -->
+    <resultMap id="userToRoleResult" type="cn.cjxy.domain.User">
+        <id column="id" property="id"></id>
+        <result column="username" property="username"></result>
+        <result column="birthday" property="birthday"></result>
+        <result column="sex" property="sex"></result>
+        <result column="address" property="address"></result>
+
+        <collection property="roleList" ofType="cn.cjxy.domain.Role">
+            <id column="rid" property="roleId"></id>
+            <result column="role_name" property="roleName"></result>
+            <result column="role_desc" property="roleDesc"></result>
+        </collection>
+    </resultMap>
+    <select id="findAll" resultMap="userToRoleResult">
+        SELECT u.*,
+               r.role_name,
+               r.role_desc
+        FROM user u
+                 LEFT JOIN user_role ur ON u.id = ur.uid
+                 LEFT JOIN role r ON r.id = ur.rid;
+    </select>
+</mapper>

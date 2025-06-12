@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--   通过函数参数赋值 -->
+    <bean id="book05" class="cn.cjxy.bean_propertie.domain.Book">
+        <constructor-arg name="id" value="001"></constructor-arg>
+        <constructor-arg name="name" value="《论语》"></constructor-arg>
+        <constructor-arg name="price" value="22.3"></constructor-arg>
+    </bean>
+
+    <!--    通过构造函数的索引进行赋值-->
+    <bean id="book06" class="cn.cjxy.bean_propertie.domain.Book">
+        <constructor-arg index="0" value="002"></constructor-arg>
+        <constructor-arg index="1" value="《大学》"></constructor-arg>
+        <constructor-arg index="2" value="33.3"></constructor-arg>
+    </bean>
+
+    <!--    通过类型不同区分重载的构造器-->
+    <bean id="book07" class="cn.cjxy.bean_propertie.domain.Book">
+        <constructor-arg index="0" value="003" type="java.lang.String"></constructor-arg>
+        <constructor-arg index="1" value="《中庸》" type="java.lang.String"></constructor-arg>
+        <constructor-arg index="2" value="44.2" type="java.lang.Double"></constructor-arg>
+    </bean>
+
+    <!--    通过set方法-->
+    <bean id="book08" class="cn.cjxy.bean_propertie.domain.Book">
+        <property name="id" value="004"/>
+        <property name="name" value="《孟子》"/>
+        <property name="price" value="42.3"/>
+    </bean>
+
+    <!--    通过p名称空间-->
+    <bean id="book09" class="cn.cjxy.bean_propertie.domain.Book"
+          p:id="005" p:name="《西游记》" p:price="33.8"
+    />
+
+    <bean id="emp01" class="cn.cjxy.bean_propertie.domain.Emp">
+        <property name="id" value="001"></property>
+        <property name="name" value="张"></property>
+        <!--   属性的级联设置     -->
+        <property name="dept.id" value="001"></property>
+        <property name="dept.name" value="研发部"></property>
+        <property name="dept.location" value="重庆江北"></property>
+    </bean>
+
+    <!--    定义一个部门-->
+    <bean id="dept02" class="cn.cjxy.bean_propertie.domain.Dept">
+        <property name="id" value="02"></property>
+        <property name="name" value="生成部"></property>
+        <property name="location" value="重庆"></property>
+    </bean>
+    <bean id="emp02" class="cn.cjxy.bean_propertie.domain.Emp">
+        <property name="id" value="002"></property>
+        <property name="name" value="张"></property>
+        <!--   通过ref属性进行数据注入     -->
+        <property name="dept" ref="dept02"></property>
+    </bean>
+    <!--    null值的处理-->
+    <bean id="emp03" class="cn.cjxy.bean_propertie.domain.Emp">
+        <property name="id" value="003"></property>
+        <property name="name" value="王五"></property>
+        <!--        这种写法会把null当做空字符处理-->
+        <!--        <property name="dept"><null /></property>-->
+        <property name="dept">
+            <null/>
+        </property>
+    </bean>
+
+    <!--    数组集合赋值-->
+    <bean id="dept03" class="cn.cjxy.bean_propertie.domain.Dept">
+        <property name="id" value="003"></property>
+        <property name="name" value="宣传部"></property>
+        <property name="location" value="重庆南岸"></property>
+        <property name="empList">
+            <list>
+                <!--                引用数据类型-->
+                <ref bean="emp01"></ref>
+                <!--                也可以直接写-->
+            </list>
+        </property>
+    </bean>
+
+    <!--map类型  键值对-->
+    <bean id="pojo01" class="cn.cjxy.bean_propertie.domain.Pojo">
+        <property name="maps">
+            <map>
+                <entry key="id" value="003"></entry>
+                <entry key="name" value="《水浒传》"></entry>
+                <entry key="price" value="44.4"></entry>
+            </map>
+        </property>
+    </bean>
+
+    <!--   生命周期 -->
+    <!--    lazy-init 懒人加载配置
+            true ：立即开启加载，等到用的时候再加载
+            false：默认值，立即加载
+            scope:作用范围  默认为singleton  prototype 多例模式-->
+    <bean id="person" class="cn.cjxy.bean_propertie.domain.Person"
+          init-method="init" destroy-method="destroy" lazy-init="true" scope="prototype"></bean>
+
+    <!--后置处理器-->
+    <bean id="myProcess" class="cn.cjxy.bean_propertie.after_handler.MyProcess"></bean>
+
+    <!--    注册person对象-->
+    <bean id="person01" class="cn.cjxy.bean_propertie.domain.Person"
+          init-method="init" destroy-method="destroy"></bean>
+</beans>

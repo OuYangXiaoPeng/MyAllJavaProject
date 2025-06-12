@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--namespace 名称空间，指定对哪个接口进行映射-->
+<mapper namespace="cn.cjxy.mapper.EmpMapper">
+    <!--
+    select 表示执行查询sql
+    id 唯一； 必须与接口中方法名称一致。
+    resultType 表示执行查询SQL封装的实体类对象。如果放回集合，只需要指定集合中元素的
+    类型即可。
+    标签体中存放要执行的select语句
+    -->
+    <select id="findAll" resultType="cn.cjxy.domain.Emp">
+        select * from emp
+    </select>
+
+    <select id="findById" resultType="cn.cjxy.domain.Emp" parameterType="cn.cjxy.domain.Emp">
+        select * from emp where id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="cn.cjxy.domain.Emp">
+        insert into emp
+        values (#{id}, #{name}, #{age}, #{addr}, #{salary})
+    </insert>
+
+    <delete id="deleteById" parameterType="cn.cjxy.domain.Emp">
+        delete from emp where id = #{id}
+    </delete>
+
+    <update id="updateById" parameterType="cn.cjxy.domain.Emp">
+        update emp
+        set name   = #{name},
+            age    = #{age},
+            addr   = #{addr},
+            salary = #{salary}
+        where id = #{id}
+    </update>
+
+</mapper>

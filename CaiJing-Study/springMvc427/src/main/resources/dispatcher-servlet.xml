@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+http://www.springframework.org/schema/beans/spring-beans.xsd
+http://www.springframework.org/schema/context
+http://www.springframework.org/schema/context/spring-context.xsd
+http://www.springframework.org/schema/mvc
+http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+    <!-- 扫描注解-->
+    <context:component-scan base-package="cn.cjxy"/>
+
+    <!--开启springmvc驱动(开启一些高级功能)-->
+    <mvc:annotation-driven/>
+
+    <!-- 配置拦截器-->
+    <mvc:interceptors>
+        <!-- 单个拦截器-->
+        <mvc:interceptor>
+            <!--
+            path：
+            拦截规则
+            ?:匹配单个字符
+            *:代表匹配任意长度的字符(只能匹配单机目录)
+            **:代表匹配任意长度的多级目录
+            -->
+            <!-- 拦截/user目录下的所有请求-->
+            <mvc:mapping path="/user/**"/>
+            <!-- 放行请求-->
+            <mvc:exclude-mapping path="/user/register"/>
+            <mvc:exclude-mapping path="/user/login"/>
+            <!-- 配置拦截器-->
+            <bean class="cn.cjxy.Interceptor.MyIntercept"></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
+</beans>

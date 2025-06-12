@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Four Charts Side by Side</title>
+    <script src="https://cdn.jsdelivr.net/npm/echarts/dist/echarts.min.js"></script>
+    <style>
+        .container {
+            /* 使用 Flexbox 布局 */
+            display: flex;
+
+            /* 两个图表之间的间距 */
+            gap: 20px;
+        }
+
+        .chart-box {
+            width: 100%;
+            height: 400px;
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="chart-box" id="chart1"></div>
+    <div class="chart-box" id="chart2"></div>
+</div>
+<br/>
+<div class="container">
+    <div class="chart-box" id="chart3"></div>
+    <div class="chart-box" id="chart4"></div>
+</div>
+
+
+<!--
+    使用echarts的5个步骤
+    1.使用npm下载并引入到echarts.js文件到项目里
+    2.为它准备一个有大小的dom容器
+    3.初始化echarts实例
+    4.指定echarts实例对的配置项和相应的数据
+    5.将echarts实例赋值给我们的dom容器
+
+    -->
+<script>
+    // Initialize charts
+    const chart1 = echarts.init(document.getElementById('chart1'));
+    const chart2 = echarts.init(document.getElementById('chart2'));
+    const chart3 = echarts.init(document.getElementById('chart3'));
+    const chart4 = echarts.init(document.getElementById('chart4'));
+
+    // Chart 1: Radar Chart
+    const option1 = {
+        title: {
+            text: 'Basic Radar Chart'
+        },
+        legend: {
+            data: ['Allocated Budget', 'Actual Spending']
+        },
+        radar: {
+            indicator: [{
+                name: 'Sales',
+                max: 6500
+            },
+                {
+                    name: 'Administration',
+                    max: 16000
+                },
+                {
+                    name: 'IT',
+                    max: 30000
+                },
+                {
+                    name: 'Customer Support',
+                    max: 38000
+                },
+                {
+                    name: 'Development',
+                    max: 52000
+                },
+                {
+                    name: 'Marketing',
+                    max: 25000
+                }
+            ]
+        },
+        series: [{
+            type: 'radar',
+            data: [{
+                value: [4200, 3000, 20000, 35000, 50000, 18000],
+                name: 'Allocated Budget'
+            },
+                {
+                    value: [5000, 14000, 28000, 26000, 42000, 21000],
+                    name: 'Actual Spending'
+                }
+            ]
+        }]
+    };
+
+    // Chart 2: Bar Chart
+    const option2 = {
+        xAxis: {
+            type: 'category',
+            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+        },
+        yAxis: {
+            type: 'value'
+        },
+        series: [{
+            data: [120, 200, 150, 80, 70, 110, 130],
+            type: 'bar'
+        }]
+    };
+
+    // Chart 3: Pie Chart
+    const option3 = {
+        tooltip: {
+            trigger: 'item'
+        },
+        legend: {
+            top: '5%',
+            left: 'center'
+        },
+        series: [{
+            name: 'Access From',
+            type: 'pie',
+            radius: ['40%', '70%'],
+            avoidLabelOverlap: false,
+            data: [{
+                value: 1048,
+                name: 'Search Engine'
+            },
+                {
+                    value: 735,
+                    name: 'Direct'
+                },
+                {
+                    value: 580,
+                    name: 'Email'
+                },
+                {
+                    value: 484,
+                    name: 'Union Ads'
+                },
+                {
+                    value: 300,
+                    name: 'Video Ads'
+                }
+            ]
+        }]
+    };
+
+    // Chart 4: Custom Symbol Path Chart
+    const option4 = {
+        xAxis: {
+            data: ['2017-10-24', '2017-10-25', '2017-10-26', '2017-10-27']
+        },
+        yAxis: {},
+        series: [{
+            type: 'candlestick',
+            data: [
+                [20, 34, 10, 38],
+                [40, 35, 30, 50],
+                [31, 38, 33, 44],
+                [38, 15, 5, 42]
+            ]
+        }]
+    };
+
+
+    // Apply options to charts
+    chart1.setOption(option1);
+    chart2.setOption(option2);
+    chart3.setOption(option3);
+    chart4.setOption(option4);
+</script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--namespace 名称空间，指定对哪个接口进行映射-->
+<mapper namespace="cn.cjxy.mapper.EmpMapper">
+
+    <update id="updateEmp">
+        update emp
+        <set>
+            <if test="name!=null">
+                name = #{name},
+            </if>
+            <if test="age!=null">
+                age = #{age},
+            </if>
+            <if test="address!=null">
+                address = #{address},
+            </if>
+            <if test="salary!=null">
+                salary = #{salary}
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <!--
+        select 表示执行查询sql
+            id 唯一； 必须与接口中方法名称一致。
+            resultType 表示执行查询SQL封装的实体类对象。如果放回集合，只需要指定集合中元素的类型即可。
+            标签体中存放要执行的select语句
+    -->
+    <select id="findAll" resultType="Emp">
+        select *
+        from emp
+    </select>
+    <!--
+    返回值为简单类型，resultType的值对应简单类型所在的包
+    -->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from emp
+    </select>
+    <!-- 返回值为list或pojo类型，resultType的值对应list所对应的泛型类型-->
+    <select id="findByNameLike" resultType="Emp">
+        select *
+        from emp
+        where name like #{name}
+    </select>
+    <!-- 返回值为Map类型，resultType的值对应Map所在的包路径-->
+    <select id="findByIdMap" resultType="java.util.Map">
+        select *
+        from emp
+        where id = #{id}
+    </select>
+    <select id="findAllMaps" resultType="java.util.Map">
+        select *
+        from emp
+    </select>
+    <!-- 手动映射
+    定义规则
+    id的值和resultMap的值属性要一一对应
+    -->
+    <resultMap id="findAlLEmpMap" type="Emp">
+        <!-- id列使用id标签-->
+        <id column="id" property="id"></id>
+        <!-- 其他列统统使用result标签
+        column：表的列名
+        property：实体类的属性名称
+        -->
+        <result column="username" property="name"></result>
+        <result column="age" property="age"></result>
+        <result column="addr" property="address"></result>
+        <result column="salary" property="salary"></result>
+    </resultMap>
+
+    <select id="findAlLEmp" resultMap="findAlLEmpMap">
+        select *
+        from emp
+    </select>
+    <!--
+    #{}:会对特殊字符进行过滤，传递的参数不会参与sql语句的生成。底层是使用preparestatement对象预编译
+    ${}：不会对特殊字符进行过滤。而是简单的字符串拼接
+
+    -->
+    <select id="findByNameLike2" resultType="Emp">
+        select *
+        from emp
+        where name like '${name}'
+    </select>
+    <!-- 动态sql之if标签
+    test：判断条件，如果成立，那么执行if标签中的内容，如果不成立则不执行
+    -->
+    <select id="findEmpByIdAndName" resultType="Emp">
+        select * from emp where 1=1
+        <if test="id!=null">
+            and id=#{id}
+        </if>
+        <if test="name!=null">
+            and name=#{name}
+        </if>
+    </select>
+    <!--
+    动态sql之where标签
+    where可以去除前and，不能去除后and，还可以去除前or
+    -->
+    <select id="findEmpByIdAndName2" resultType="Emp">
+        select * from emp
+        <where>
+            <if test="id!=null">
+                and id=#{id}
+            </if>
+            <if test="name!=null">
+                and name=#{name}
+            </if>
+        </where>
+
+    </select>
+    <!--
+    MyBatis在传递集合时，将集合的key设置为：collection（List集合、Set集合等），
+    在mapper.xml中，使用#{collection}就可以获取到集合的值，如果是List类型的集合，
+    还可以使用#{list}来获取到集合的值，如果是数组类型，那么需要使用#{array}来获取值
+    -->
+    <!--
+    collection:如果是list  则填list;如果是set集合，此处使用collection;如果是数组，此处使用array
+    item:每次遍历的临时值
+    open:遍历之前加上的符号
+    close：遍历之后加上的符号：分隔符
+    separator
+    -->
+    <select id="findByIds" resultType="Emp">
+        select * from emp where id in
+        <foreach collection="list" item="empId" open="(" close=")" separator=",">
+            #{empId}
+        </foreach>
+    </select>
+
+    <select id="findByIds2" resultType="Emp">
+        select * from emp where id in
+        <foreach collection="collection" item="empId" open="(" close=")" separator=",">
+            #{empId}
+        </foreach>
+    </select>
+
+    <select id="findByIds3" resultType="Emp">
+        select * from emp where id in
+        <foreach collection="array" item="empId" open="(" close=")" separator=",">
+            #{empId}
+        </foreach>
+    </select>
+
+    <select id="findByEmp" resultType="cn.cjxy.domain.Emp">
+        select * from emp
+        <where>
+            <choose>
+                <when test="id!=null">
+                    and id = #{id}
+                </when>
+                <when test="name!=null">
+                    and name = #{name}
+                </when>
+                <otherwise>
+                    1!=1
+                </otherwise>
+            </choose>
+        </where>
+    </select>
+
+    <select id="findByIdOrName" resultType="cn.cjxy.domain.Emp">
+        <include refid="querAll"></include>
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="id!=null">
+                id = #{id}
+            </if>
+            <if test="name!=null">
+                OR name = #{name}
+            </if>
+        </trim>
+    </select>
+
+    <!--    定义sql片段-->
+    <sql id="querAll">
+        select *
+        from emp
+    </sql>
+</mapper>
